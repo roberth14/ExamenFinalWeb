@@ -9,5 +9,6 @@ import co.com.example.pokemon.entity.Entrenador;
 public interface EntrenadorRepository extends JpaRepository<Entrenador, Integer>{
 	
 	Optional<Entrenador>findByEmail(String email);
+	Optional<Entrenador>findByUuid(String uuid);
 
 }
