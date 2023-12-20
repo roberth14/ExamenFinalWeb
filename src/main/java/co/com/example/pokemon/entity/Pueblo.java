@@ -1,5 +1,7 @@
 package co.com.example.pokemon.entity;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,7 +13,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="pueblo")
-public class Pueblo {
+public class Pueblo implements Serializable {
 	
 	@Id
 	@SequenceGenerator(name="pueblo_id_seq",allocationSize = 1)
