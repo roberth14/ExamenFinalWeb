@@ -24,6 +24,7 @@ public class Entrenador implements Serializable {
 	private String nombre;
 	private String apellido;
 	private String pdf;
+	private String email;
 	@Column(name="fecha_nacimiento")
 	private Date fechaNacimiento;
 	@Column(name="fecha_vinculacion")
