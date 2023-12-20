@@ -31,38 +31,45 @@ public class EntrenadorController {
 	PokemonRepository pokemonRepository;
 	@Autowired
 	CapturaRepository capturaRepository;
-	
 
-	
 	@PostMapping("/login")
 	public LoginResponse login(@RequestBody LoginRequest loginRequest) {
-		
-		Optional<Entrenador>entrenador=entrenadorRepository.findByEmail(loginRequest.getEmail());
-		if(entrenador.isPresent()) {
-			LoginResponse loginResponse=new LoginResponse();
+
+		Optional<Entrenador> entrenador = entrenadorRepository.findByEmail(loginRequest.getEmail());
+		if (entrenador.isPresent()) {
+			LoginResponse loginResponse = new LoginResponse();
 			loginResponse.setUuid(entrenador.get().getUuid());
+			return loginResponse;
 		}
 		return null;
-		
+
 	}
+
+	@GetMapping("/lista")
+	public List<?> lista() {
+
+		return entrenadorRepository.findAll();
+
+	}
+
 	@GetMapping("/{uuid}/pokemons")
-	public List<Captura>pokemones(@PathVariable String uuid){
-		
-		Optional<Entrenador>entrenador=entrenadorRepository.findByUuid(uuid);
-		if(entrenador.isPresent()) {
+	public List<Captura> pokemones(@PathVariable String uuid) {
+
+		Optional<Entrenador> entrenador = entrenadorRepository.findByUuid(uuid);
+		if (entrenador.isPresent()) {
 			return null;
 		}
 		return null;
-		
+
 	}
-	
+
 	@PostMapping("/{uuid}/pokemons/{uuidP}")
-	public Captura saveCaptura(@PathVariable String uuid,@PathVariable String uuidP) {
-		
-		Optional<Entrenador>entrenador=entrenadorRepository.findByUuid(uuidP);
-		Optional<Pokemon>pokemon=pokemonRepository.findByUuid(uuidP);
-		if(entrenador.isPresent() && pokemon.isPresent()) {
-			Captura captura=new Captura();
+	public Captura saveCaptura(@PathVariable String uuid, @PathVariable String uuidP) {
+
+		Optional<Entrenador> entrenador = entrenadorRepository.findByUuid(uuidP);
+		Optional<Pokemon> pokemon = pokemonRepository.findByUuid(uuidP);
+		if (entrenador.isPresent() && pokemon.isPresent()) {
+			Captura captura = new Captura();
 			captura.setEntrenador(entrenador.get());
 			captura.setPokemon(pokemon.get());
 			return capturaRepository.save(captura);
