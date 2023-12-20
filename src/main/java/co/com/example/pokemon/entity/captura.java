@@ -8,7 +8,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name="captura")
-public class captura {
+public class Captura {
 	
 	@Column(name="pokemon_id")
 	private Integer pokemonId;
