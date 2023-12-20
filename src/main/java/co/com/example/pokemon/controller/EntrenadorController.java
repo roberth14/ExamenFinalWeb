@@ -16,7 +16,10 @@ import co.com.example.pokemon.Dto.LoginRequest;
 import co.com.example.pokemon.Dto.LoginResponse;
 import co.com.example.pokemon.entity.Captura;
 import co.com.example.pokemon.entity.Entrenador;
+import co.com.example.pokemon.entity.Pokemon;
+import co.com.example.pokemon.repository.CapturaRepository;
 import co.com.example.pokemon.repository.EntrenadorRepository;
+import co.com.example.pokemon.repository.PokemonRepository;
 
 @RestController
 @RequestMapping("/entrenador")
@@ -24,6 +27,10 @@ import co.com.example.pokemon.repository.EntrenadorRepository;
 public class EntrenadorController {
 	@Autowired
 	EntrenadorRepository entrenadorRepository;
+	@Autowired
+	PokemonRepository pokemonRepository;
+	@Autowired
+	CapturaRepository capturaRepository;
 	
 
 	
@@ -47,6 +54,20 @@ public class EntrenadorController {
 		}
 		return null;
 		
+	}
+	
+	@PostMapping("/{uuid}/pokemons/{uuidP}")
+	public Captura saveCaptura(@PathVariable String uuid,@PathVariable String uuidP) {
+		
+		Optional<Entrenador>entrenador=entrenadorRepository.findByUuid(uuidP);
+		Optional<Pokemon>pokemon=pokemonRepository.findByUuid(uuidP);
+		if(entrenador.isPresent() && pokemon.isPresent()) {
+			Captura captura=new Captura();
+			captura.setEntrenador(entrenador.get());
+			captura.setPokemon(pokemon.get());
+			return capturaRepository.save(captura);
+		}
+		return null;
 	}
 
 }

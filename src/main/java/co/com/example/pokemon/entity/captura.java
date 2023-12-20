@@ -15,8 +15,9 @@ public class Captura  {
 	
 	@Id
 	private Integer id;
-	@Column(name="pokemon_id")
-	private Integer pokemonId;
+	@ManyToOne
+	@JoinColumn(name="pokemon_id")
+	private Pokemon pokemon;
 	@ManyToOne
 	@JoinColumn(name="entrenador_id")
 	private Entrenador entrenador;
