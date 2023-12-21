@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.com.example.pokemon.Dto.ErrorDto;
 import co.com.example.pokemon.Dto.LoginRequest;
 import co.com.example.pokemon.Dto.LoginResponse;
 import co.com.example.pokemon.entity.Captura;
@@ -53,26 +54,38 @@ public class EntrenadorController {
 	}
 
 	@GetMapping("/{uuid}/pokemons")
-	public List<Captura> pokemones(@PathVariable String uuid) {
+	public List<Pokemon> pokemones(@PathVariable String uuid) {
 
 		Optional<Entrenador> entrenador = entrenadorRepository.findByUuid(uuid);
 		if (entrenador.isPresent()) {
-			return null;
+			return entrenador.get().getPokemon();
 		}
 		return null;
 
 	}
 
 	@PostMapping("/{uuid}/pokemons/{uuidP}")
-	public Captura saveCaptura(@PathVariable String uuid, @PathVariable String uuidP) {
+	public Object saveCaptura(@PathVariable String uuid, @PathVariable String uuidP) {
 
-		Optional<Entrenador> entrenador = entrenadorRepository.findByUuid(uuidP);
+		Optional<Entrenador> entrenador = entrenadorRepository.findByUuid(uuid);
 		Optional<Pokemon> pokemon = pokemonRepository.findByUuid(uuidP);
 		if (entrenador.isPresent() && pokemon.isPresent()) {
+			System.err.println(entrenador.toString());
+			System.err.println(pokemon.toString());
 			Captura captura = new Captura();
 			captura.setEntrenador(entrenador.get());
 			captura.setPokemon(pokemon.get());
-			return capturaRepository.save(captura);
+			try {
+				return capturaRepository.save(captura);
+			} catch (Exception e) {
+				// TODO: handle exception
+				ErrorDto errorDto=new ErrorDto();
+				errorDto.setError(true);
+				errorDto.setMensaje("pokemon ya esta registrado al entrenador");
+				return  errorDto;
+				
+			}
+		
 		}
 		return null;
 	}

@@ -12,5 +12,6 @@ public interface PokemonRepository extends JpaRepository<Pokemon, Integer> {
 	
 	List<Pokemon>findByTipoPokemon(TipoPokemon tipo);
 	Optional<Pokemon> findByUuid(String uuid);
+	
 
 }

@@ -2,6 +2,9 @@ package co.com.example.pokemon.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -33,7 +38,13 @@ public class Pokemon  implements Serializable{
 	private Date fechaDescubrimiento;
 	private Integer generacion;
 	private String uuid;
-	
+	@ManyToMany
+	@JoinTable(
+	        name = "captura",
+	        joinColumns = @JoinColumn(name = "pokemon_id"),
+	        inverseJoinColumns = @JoinColumn(name = "entrenador_id")
+	    )
+	private List<Entrenador> entrenador;
 	
 
 }

@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -22,8 +24,7 @@ import lombok.Data;
 public class Entrenador implements Serializable {
 	
 	@Id
-	@SequenceGenerator(name="entrenador_id_seq",allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "entrenador_id_seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nombre;
 	private String apellido;
@@ -35,9 +36,12 @@ public class Entrenador implements Serializable {
 	@Column(name="pueblo_id")
 	private Integer puebloId;
 	private String uuid;
-	@JsonIgnore
-	@OneToMany(mappedBy = "entrenador")
-	private List<Captura>pokemones;
+	
+	@ManyToMany
+	private List<Pokemon>pokemon;
+	
+	
+
 	
 	
 
